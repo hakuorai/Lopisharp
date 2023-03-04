@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,height=device-height,inital-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+
+        <title>Interpreter</title>
+
+        <link rel="stylesheet" type="text/css" href="style.css">
+
+        <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+        <script type="module">
+            import { createApp } from "https://cdn.staticfile.org/vue/3.2.47/vue.esm-browser.min.js"
+            import { Lexer } from "./lexer.js"
+            import { Parser } from "./parser.js"
+            import { Interpreter } from "./interpreter.js"
+            import { TYPE_NAME } from "./val.js"
+
+
+            createApp({
+                data() {
+                    return {
+                        expr: '',
+                        result: {},
+                        status: 'init',
+                        info: 'Please run',
+                        typename: TYPE_NAME
+                    }
+                },
+                
+                methods: {
+                    run() {                     
+                        
+                        try{
+                            var lexer = new Lexer(this.expr)
+                            var parser = new Parser(lexer)
+                            var interpreter = new Interpreter(parser)
+                            interpreter.evaluate()
+                            this.result = interpreter.globals
+                            this.status = 'ok'
+                            this.info = 'OK'
+                        } catch (error) {
+                            this.status = 'error'
+                            this.info = error
+                        }
+                        
+
+                        /*
+                        var lexer = new Lexer(this.expr)
+                        var parser = new Parser(lexer)
+                        var interpreter = new Interpreter(parser)
+                        interpreter.evaluate()
+                        this.result = interpreter.globals
+                        this.status = 'ok'
+                        this.info = 'OK'                        
+                        */
+                    }
+                },
+
+                mounted() {
+                    var vue = this
+                    
+                    $.get('examples/hello.ope', {}, function(data, status) {
+                        vue.expr = data
+                    })
+                }
+            }).mount('#app')
+        </script>
+    </head>
+
+    <body>
+        <div id="app" class="main">
+            <textarea class="codeblock" v-model="expr"></textarea><br>
+            <button @click="run">▶ Run</button>
+            <p :class="status">{{ info }}</p>
+            <p>Global variables:</p>
+            <table class="variables" v-if="status=='ok'">
+                <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Value</th>
+                </tr>
+                <tr v-for="(val, index) in result">
+                    <td>{{ index }}</td>
+                    <td>{{ typename[val.type] }}</td>
+                    <td>{{ val.val }}</td>
+                </tr>
+            </table>
+        </div>
+
+    </body>
+</html>
