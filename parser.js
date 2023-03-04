@@ -107,7 +107,7 @@ class Parser {
      * factor : (ADD | SUB | SHARP | FLAT) factor 
      *        | VAL 
      *        | LPAREN expr RPAREN
-     *        | LABS expr RABS 
+     *        | VBAR expr VBAR 
      *        | variable
      */
     factor() {
@@ -144,10 +144,10 @@ class Parser {
                 this.eat(TOKEN_TYPE.RPAREN)
                 return node
 
-            case TOKEN_TYPE.LABS:
-                this.eat(TOKEN_TYPE.LABS)
+            case TOKEN_TYPE.VBAR:
+                this.eat(TOKEN_TYPE.VBAR)
                 var node = new AST.UnOp(token, this.expr())
-                this.eat(TOKEN_TYPE.RABS)
+                this.eat(TOKEN_TYPE.VBAR)
                 return node
 
             case TOKEN_TYPE.ID:

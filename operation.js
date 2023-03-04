@@ -24,7 +24,7 @@ function opBool(op, bool) {
         case TOKEN_TYPE.FLAT:
             return bool
 
-        case TOKEN_TYPE.LABS:
+        case TOKEN_TYPE.VBAR:
             return bool
     
         default:
@@ -50,7 +50,7 @@ function opNumber(op, number) {
         case TOKEN_TYPE.FLAT:
             return new BoolVal(number.val)
             
-        case TOKEN_TYPE.LABS:
+        case TOKEN_TYPE.VBAR:
             return new NumberVal(Math.abs(number.val))
         
         default:
@@ -73,7 +73,7 @@ function opString(op, string) {
         case TOKEN_TYPE.FLAT:
             return new NumberVal(string.val)
 
-        case TOKEN_TYPE.LABS:
+        case TOKEN_TYPE.VBAR:
             return new NumberVal(string.val.length)
 
         default:

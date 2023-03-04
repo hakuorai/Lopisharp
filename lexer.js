@@ -160,16 +160,9 @@ class Lexer {
                 return new Token(TOKEN_TYPE.FLAT, '_')
             }
 
-            if (this.current_char == '|' && this.peek() == '(') {
+            if (this.current_char == '|') {
                 this.advance()
-                this.advance()
-                return new Token(TOKEN_TYPE.LABS, '|(')
-            }
-
-            if (this.current_char == ')' && this.peek() == '|') {
-                this.advance()
-                this.advance()
-                return new Token(TOKEN_TYPE.RABS, ')|')
+                return new Token(TOKEN_TYPE.VBAR, '|')
             }
 
             if (this.current_char == '(') {
