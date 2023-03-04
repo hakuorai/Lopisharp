@@ -66,10 +66,12 @@ class Parser {
     }
 
     /**
-     * statement : block | assignment_statement
+     * statement : explanatory | block | assignment_statement
      */
     statement() {
-        if (this.current_token.type == TOKEN_TYPE.LBRACE)
+        if (this.current_token.type == TOKEN_TYPE.EXCLM)
+            var node = this.annotation()
+        else if (this.current_token.type == TOKEN_TYPE.LBRACE)
             var node = this.block()
         else if (this.current_token.type == TOKEN_TYPE.ID)
             var node = this.assignment_statement()
@@ -80,13 +82,17 @@ class Parser {
     }
 
     /**
-     * assignment_statement : variable ASSIGN expr
+     * assignment_statement : variable ASSIGN expr (explanatory)
      */
     assignment_statement() {
         var left = this.variable()
         var token = this.current_token
         this.eat(TOKEN_TYPE.ASSIGN)
         var right = this.expr()
+
+        if (this.current_token.type == TOKEN_TYPE.EXCLM)
+            this.annotation()
+
         return new AST.Assign(left, token ,right)
     }
 
@@ -97,6 +103,11 @@ class Parser {
         var node = new AST.Var(this.current_token)
         this.eat(TOKEN_TYPE.ID)
         return node
+    }
+
+    annotation() {
+        this.eat(TOKEN_TYPE.EXCLM)
+        return new AST.NullOp()
     }
 
     empty() {

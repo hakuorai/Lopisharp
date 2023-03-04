@@ -87,6 +87,19 @@ class Lexer {
     }
 
     /**
+     * 从当前字符开始解析为注释
+     */
+    annotation() {
+        var expl = ''
+        while (this.current_char != '\n')
+        {
+            expl += ''
+            this.advance()
+        }
+        return expl    
+    }
+
+    /**
      * 从当前字符开始解析为变量名
      */
     id() {
@@ -113,6 +126,10 @@ class Lexer {
 
             if (isDigit(this.current_char))
                 return new Token(TOKEN_TYPE.NUM, this.number())
+
+            if (this.current_char == '!') {
+                return new Token(TOKEN_TYPE.EXCLM, this.annotation())
+            }
 
             if (this.current_char == "'") {
                 this.advance()

@@ -18,10 +18,9 @@ const TOKEN_TYPE = {
     SHARP: 15,
     FLAT: 16,
     VBAR: 17,
-    LABS: 18,
-    RABS: 19,
-    LLOOP: 20,
-    RLOOP: 21
+    EXCLM: 18,
+    LLOOP: 19,
+    RLOOP: 20
 }
 
 

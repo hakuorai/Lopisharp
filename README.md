@@ -81,11 +81,11 @@ Lopisharp使用**bool**，**number**和**string**共3种基本类型，以下展
     myString    = '3.14'
     myNumber    = _myString
     myBool      = _myNumber
-    flatBool    = _myBool
+    flatBool    = _myBool       ! won't change
 
     sharpBool   = #myBool
     sharpNumber = #myNumber
-    sharpString = #myString
+    sharpString = #myString     ! won't change
 }
 ```
 |Name|Type|Value|
